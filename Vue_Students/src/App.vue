@@ -1,48 +1,59 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue'
+
+import StudentTable from './components/StudentTable.vue'
+import StudentDetails from './components/StudentDetails.vue'
+import StudentForm from './components/StudentForm.vue'
+
+const students = ref([
+  {
+    id: 1,
+    firstname: "John",
+    lastname: "Doe",
+    age: 20,
+    email: "john@example.com",
+    major: "MCT",
+    profile: "Web"
+  }
+])
+
+const selectedStudent = ref(null)
+const isEditing = ref(false)
+
+const viewStudent = (s) => selectedStudent.value = s
+const editStudent = (s) => {
+  selectedStudent.value = s
+  isEditing.value = true
+}
+const deleteStudent = (s) => {
+  students.value = students.value.filter(st => st.id !== s.id)
+}
+
+const submitStudent = (data) => {
+  console.log("submit", data)
+}
 </script>
 
-
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+  <div class="container mx-auto p-6">
 
-  <main>
-    <TheWelcome />
-  </main>
+    <h1 class="text-3xl font-bold mb-6">Students</h1>
+
+    <StudentTable
+      :students="students"
+      @view="viewStudent"
+      @edit="editStudent"
+      @delete="deleteStudent"
+    />
+
+    <StudentDetails :student="selectedStudent" />
+
+    <StudentForm
+      :student="selectedStudent"
+      :isEditing="isEditing"
+      @submit="submitStudent"
+      @cancel="isEditing = false"
+    />
+
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
