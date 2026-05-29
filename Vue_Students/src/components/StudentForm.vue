@@ -34,7 +34,7 @@ const submit = async () => {
 </script>
 
 <template>
-  <div class="bg-white shadow-md rounded-lg p-6">
+  <div class="max-w-5xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
 
     <h2 class="text-xl font-semibold mb-4">
       {{ route.params.id && route.params.id !== 'new' ? 'Edit Student' : 'Add Student' }}
