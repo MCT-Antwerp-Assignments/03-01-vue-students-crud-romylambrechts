@@ -1,30 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import StudentTable from '../components/StudentTable.vue'
-import StudentDetails from '../components/StudentDetails.vue'
-import StudentForm from '../components/StudentForm.vue'
-
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: StudentTable
+    component: () => import('../views/StudentList.vue')
+  },
+  {
+    path: '/student/new/edit',
+    component: () => import('../components/StudentForm.vue')
   },
   {
     path: '/student/:id',
-    name: 'student-details',
-    component: StudentDetails,
-    props: true
+    component: () => import('../components/StudentDetails.vue')
   },
   {
     path: '/student/:id/edit',
-    name: 'student-edit',
-    component: StudentForm,
-    props: true
+    component: () => import('../components/StudentForm.vue')
   }
 ]
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
+export default router
