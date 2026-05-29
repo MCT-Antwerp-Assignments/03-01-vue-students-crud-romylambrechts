@@ -5,18 +5,6 @@ import StudentTable from './components/StudentTable.vue'
 import StudentDetails from './components/StudentDetails.vue'
 import StudentForm from './components/StudentForm.vue'
 
-const students = ref([
-  {
-    id: 1,
-    firstname: "John",
-    lastname: "Doe",
-    age: 20,
-    email: "john@example.com",
-    major: "MCT",
-    profile: "Web"
-  }
-])
-
 const selectedStudent = ref(null)
 const isEditing = ref(false)
 
@@ -35,25 +23,16 @@ const submitStudent = (data) => {
 </script>
 
 <template>
-  <div class="container mx-auto p-6">
+  <div class="max-w-7xl mx-auto p-6">
 
     <h1 class="text-3xl font-bold mb-6">Students</h1>
 
-    <StudentTable
-      :students="students"
-      @view="viewStudent"
-      @edit="editStudent"
-      @delete="deleteStudent"
-    />
+    <StudentTable :students="students" @view="viewStudent" @edit="editStudent" @delete="deleteStudent" />
 
     <StudentDetails :student="selectedStudent" />
 
-    <StudentForm
-      :student="selectedStudent"
-      :isEditing="isEditing"
-      @submit="submitStudent"
-      @cancel="isEditing = false"
-    />
+    <StudentForm :student="selectedStudent" :isEditing="isEditing" @submit="submitStudent"
+      @cancel="isEditing = false" />
 
   </div>
 </template>
