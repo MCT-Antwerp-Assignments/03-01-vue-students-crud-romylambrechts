@@ -1,20 +1,34 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getStudents } from './services/api'
+import { getStudents, deleteStudent as apiDeleteStudent} from './services/api'
 
 import StudentTable from './components/StudentTable.vue'
 import StudentDetails from './components/StudentDetails.vue'
 import StudentForm from './components/StudentForm.vue'
 
+
+const students = ref([])
 const selectedStudent = ref(null)
 const isEditing = ref(false)
+
+const loadStudents = async () => {
+  students.value = await getStudents()
+}
+
+onMounted(() => {
+  loadStudents()
+})
 
 const viewStudent = (s) => selectedStudent.value = s
 const editStudent = (s) => {
   selectedStudent.value = s
   isEditing.value = true
 }
-const deleteStudent = (s) => {
-  students.value = students.value.filter(st => st.id !== s.id)
+
+const deleteStudent = async (s) => {
+  await apiDeleteStudent(s.id)
+  await loadStudents()
 }
 
 const submitStudent = (data) => {
